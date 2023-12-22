@@ -5,29 +5,88 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
-
+  const [todos, setTodos] = useState([
+    {
+      task: "clean out the drawer",
+      date: "12-24-23"
+    },
+    {
+      task: "take out trash",
+      date: "12-25-23"
+    },
+    {
+      task: "clean room",
+      date: "12-26-23"
+    },
+    {
+      task: "do homework",
+      date: "12-28-23"
+    },
+    {
+      task: "set up for party!",
+      date: "12-31-23"
+    },
+    {
+      task: "set up mistletoe",
+      date: "12-31-23"
+    },
+    
+  ])
+  const [newTaskName, setNewTaskName] = useState("")
+  const [newDate, setNewDate] = useState("")
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+        <button onClick={() => setCount((count)=> count - 1)}>
+          count is {count}
+        </button>
+        {todos.map((todo, index) => <div className='todo-item'>
+          <p>{todo.task}</p>
+          <p>{todo.date}</p>
+          <button onClick={()=> {
+            setTodos(todos.filter((_,indexs)=> index != indexs))
+          }
+          }>
+            x
+          </button>
+        </div>)}
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div>
+        <div>
+
+          <input placeholder='Task' value={newTaskName} onChange={(event)=> {
+            console.log(event)
+            setNewTaskName(event.target.value)
+          }}>
+          </input>
+          <input placeholder='date' value={newDate} onChange={(event)=> {
+            console.log(event)
+            setNewDate(event.target.value)
+          }}>
+          
+          </input>
+        </div>
+        <button onClick={()=> {
+          if (newTaskName == "" || newDate == ""){
+            return
+          }
+          if(Date.parse(newDate)){
+            setTodos([...todos,{task: newTaskName, date: newDate}])
+            
+          
+          }
+          setNewTaskName("")
+          setNewDate("")
+          
+          
+        }
+          }>
+          Submit
+        </button>
+      </div>
     </>
   )
 }
